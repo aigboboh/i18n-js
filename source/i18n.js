@@ -28,7 +28,7 @@ I18n.lookup = function(scope, options) {
   var translations = this.prepareOptions(I18n.translations);
   var messages = translations[lookupLocale];
 
-  if (!messages) {
+  if (!messages && lookupLocaleFallbacks.length == 0) {
     return;
   }
 
@@ -44,7 +44,10 @@ I18n.lookup = function(scope, options) {
 
   while (scope.length > 0) {
     var currentScope = scope.shift();
-    messages = messages[currentScope];
+
+    if (messages) {
+      messages = messages[currentScope];
+    }
 
     if (!messages) {
       if (lookupLocaleFallbacks.length > 0) {
